@@ -1,0 +1,16 @@
+
+import processing.serial.*;
+Serial puerto;  // Creamos el objeto serial
+int val;        // dato que recibe la información
+
+void setup() 
+{
+  size(200, 200);
+  String puertonuevo = Serial.list()[0];
+  puerto = new Serial(this, puertonuevo, 9600);
+  println ("Hola Makers"); 
+}
+
+void draw() {
+//println ("Hola Makers");{//prueba imprimiendo en el draw 
+}
