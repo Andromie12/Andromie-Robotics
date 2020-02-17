@@ -1,17 +1,70 @@
+//cooredenadas del triangulo equilatero
+// En x
+float eqx1=350; 
+float eqx2=450; 
+float eqx3=400; 
+//En y
+float eqy1=250; 
+float eqy2=250; 
+float eqy3=163.3974596215; 
+
+//cooredenadas del triangulo isosceles
+// En x
+float isx1=200; 
+float isx2=300; 
+float isx3=250; 
+//En y
+float isy1=250; 
+float isy2=250; 
+float isy3=100; 
+
+//cooredenadas del triangulo isosceles
+// En x
+float esx1=10; 
+float esx2=110; 
+float esx3=250; 
+//En y
+float esy1=250; 
+float esy2=250; 
+float esy3=55; 
+
 void setup()
 {
 size(500,500);
 background(0);
+noFill();
+stroke(255);
 
+triangle(esx1,esy1,esx2,esy2,esx3,esy3);
+println("Triangulo escaleno");
+print("Lado 1: ");
+println(dist(esx1, esy1,esx2,esy2)); 
+print("Lado 2: ");
+println(dist(esx1,esy1,esx3,esy3));
+print("Lado 3: ");
+println(dist(esx2,esy2,esx3,esy3));
+
+triangle(isx1,isy1,isx2,isy2,isx3,isy3);
+println("Triangulo isosceles");
+print("Lado 1: ");
+println(dist(isx1, isy1,isx2,isy2)); 
+print("Lado 2: ");
+println(dist(isx1,isy1,isx3,isy3));
+print("Lado 3: ");
+println(dist(isx2,isy2,isx3,isy3)); 
+
+
+triangle(eqx1,eqy1,eqx2,eqy2,eqx3,eqy3);
+println("Triangulo equilatero");
+print("Lado 1: ");
+println(dist(eqx1,eqy1,eqx2,eqy2)); 
+print("Lado 2: ");
+println(dist(eqx1,eqy1,eqx3,eqy3));
+print("Lado 3: ");
+println(dist(eqx2,eqy2,eqx3,eqy3)); 
 }
 
 void draw()
 {
-noFill();
-stroke(255);
-triangle(10,250,110,250,250,55);
-triangle(200,250,300,250,250,100);
-triangle(350,250,450,250,400,150);
-  
   
 }
