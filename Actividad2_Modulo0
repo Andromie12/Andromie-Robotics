@@ -1,0 +1,66 @@
+import processing.serial.*;
+Serial Puerto;    // El puerto serial
+
+float valor = 0; // Variable de almacenamiento para la lectura del potenciometro 
+
+
+void setup () {
+  size(500, 500);         // Tamano de la pantalla:
+  Puerto = new Serial(this, "COM6", 9600); // En el lugar de [0], debe ir el puerto
+ background(100);          // Fondo de pantalla
+
+}
+ 
+void draw () {
+ 
+   fill(100);
+   noStroke();
+arc(250, 250, 150, 150, 0, HALF_PI);
+arc(250, 250, 150, 150, HALF_PI, PI);
+arc(250, 250, 150, 150, PI, TWO_PI - HALF_PI);
+arc(250, 250, 150, 1500, TWO_PI - HALF_PI, TWO_PI);
+ stroke(255);
+  strokeWeight(8);
+  line (0,250,500,250);
+   line (250,0,250,500);
+     fill(0);
+     stroke(100);
+   arc(250, 250, 150, 150, TWO_PI - valor, TWO_PI);
+ print("El ángulo es:  "); 
+  if (valor==0)
+  {
+  println("Nulo");
+  }
+  if (valor>0 && valor<1.5707963)
+  {
+println("Agudo");
+  }
+   else if (valor==1.5707963)
+  {
+println("Recto"); 
+  }
+   else if (valor>1.5707963 && valor<3.1)
+  {
+println("Obtuso"); 
+  }
+    else if (valor==3.1415927)
+  {
+println("Llano"); 
+  }
+  else if(valor==6.2831855)
+  {
+    println("Completo"); 
+  }
+ print("con valor de:  ");  
+println(degrees(valor));
+println (valor);
+     } 
+
+ void serialEvent (Serial Puerto) { //evento para la comunicación en recibir datos por el serial
+  String inString = Puerto.readStringUntil('\n'); // Lee la cadena hasta encontrar un enter
+   if (inString != null) {
+    inString = trim(inString); // Se quita los espacios en blanco:
+    valor= float(inString);  // Convierte en flotante el String leido
+    valor= map(valor,0,1023,0,TWO_PI);
+        }
+}
