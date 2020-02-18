@@ -1,0 +1,28 @@
+//cooredenadas del triangulo equilatero
+// En x
+float eqx1=350; 
+float eqx2=450; 
+float eqx3=400; 
+//En y
+float eqy1=250; 
+float eqy2=250; 
+float eqy3=163.3974596215; 
+
+
+void setup()
+{
+size(500,500);
+background(0);
+noFill();
+stroke(255);
+line (400,250,400,0);
+line (375,206.69872981075,500,278.867679959740572561665525);
+line (425,206.69872981075,350,250);
+triangle(eqx1,eqy1,eqx2,eqy2,eqx3,eqy3);
+
+}
+
+void draw()
+{
+  
+}
