@@ -1,0 +1,129 @@
+import processing.serial.*;
+Serial Puerto;    // El puerto serial
+
+float boton;
+float potenciometro;
+int index=0;
+float fin1;
+float fin2;
+
+void setup () {
+  size(500, 500);         // Tamano de la pantalla:
+  Puerto = new Serial(this, "COM6", 9600); // En el lugar de [0], debe ir el puerto
+       // Fondo de pantalla
+
+}
+ 
+void draw () {  
+ background(100);
+if (boton==1)
+{
+    
+fin1= map(potenciometro,0,1023,100,400);
+line (100,300,fin1,300);
+  textSize(20);
+text("Cateto A: ",30, 350);
+text(dist(100,300,fin1,300),120, 350);
+
+  }
+  if  (boton==2)
+  {
+     fin2= map(potenciometro,0,1023,300,10);
+    line (100,300,fin1,300); 
+line (fin1,300,fin1,fin2);
+  textSize(20);
+text("Cateto A: ",30, 350);
+text(dist(100,300,fin1,300),120, 350);
+text("Cateto B: ",30, 400);
+text(dist(fin1,300,fin1,fin2),120, 400);
+  }
+    if  (boton==3)
+  {
+    line (100,300,fin1,300);
+line (fin1,300,fin1,fin2);
+line (100,300,fin1,fin2);
+text("Cateto A: ",30, 350);
+text(dist(100,300,fin1,300),120, 350);
+text("Cateto B: ",30, 400);
+text(dist(fin1,300,fin1,fin2),120, 400);
+text("Hipotenusa: ",30, 450);
+text(sqrt(pow(dist(100,300,fin1,300),2)+pow(dist(fin1,300,fin1,fin2),2)),160, 450);
+
+  }
+
+
+  
+  
+     } 
+
+void serialEvent(Serial myPort)
+{
+  String datos = myPort.readStringUntil('\n');
+ 
+  if (datos != null) 
+  {
+    datos = trim(datos);
+    float[] valores = float(split(datos, ","));
+      boton= valores[0];
+   potenciometro= valores[1];
+  }
+}
+ 
+
+
+
+/*
+
+
+
+//Programa del Arduino
+int contador=0;
+
+void setup() {
+Serial.begin (9600);
+}
+
+void loop() {
+if (analogRead(A7)>512)
+{
+  delay (300);
+  contador++;
+  }
+if (contador==0)
+ {
+  Serial.print("0");
+  }
+ if (contador==1)
+ {
+  Serial.print("1");
+  }
+  
+ if (contador==2)
+ {
+  Serial.print("2");
+  }
+  
+ if (contador==3)
+ {
+  Serial.print("3");
+  }
+
+ if (contador==4)
+ {
+  contador=1;
+  }
+ 
+
+  Serial.print(",");
+  Serial.println(analogRead(A6));
+}
+
+
+
+
+
+
+
+
+
+*/
