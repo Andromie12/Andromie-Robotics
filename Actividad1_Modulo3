@@ -1,0 +1,48 @@
+float x1,x2,y1,y2;
+void setup() {
+  size(700, 700);
+  smooth();
+   background(0);
+} 
+
+void draw() { 
+  drawMandala(width/2, height/2,600);
+  
+  
+} 
+
+void drawMandala(float cx, float cy, float d) {
+    noFill();
+
+  float r = d;
+  float cr=random(r/30);
+  int lados = 50;
+  int delta = 360/lados;
+for (int i=0; i < 3; i++) {
+    cr *= 2;
+
+  }
+  
+  cr /= 2;
+  
+  float theta =random(360);
+  for (int i=0; i < lados; i++) {
+stroke(random(0,frameCount),random(0,frameCount/2),random(0,frameCount),random(0,frameCount/2));    
+   x1 = cx + cr*cos(radians(theta));
+    y1 = cy + cr*sin(radians(theta));
+     x2 = cx + (r)*cos(radians(theta));
+     y2 = cy + (r)*sin(radians(theta));
+ 
+    
+  }
+  pushMatrix();
+  line(x1, y1, x2, y2);
+  for (float i=cr;i<800;i++)
+  {
+  translate(i,i,100);
+  }
+  theta += delta;
+  popMatrix();
+
+
+}
