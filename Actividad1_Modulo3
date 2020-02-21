@@ -6,12 +6,12 @@ void setup() {
 } 
 
 void draw() { 
-  drawMandala(width/2, height/2,600);
+  Lineas(width/2, height/2,600);
   
   
 } 
 
-void drawMandala(float cx, float cy, float d) {
+void Lineas(float cx, float cy, float d) {
     noFill();
 
   float r = d;
