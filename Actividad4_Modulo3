@@ -1,0 +1,78 @@
+import ddf.minim.*;
+Minim minim;
+AudioPlayer son1,son2;
+import processing.serial.*;
+Serial Puerto;    // El puerto serial
+
+float boton;
+
+
+int index=0;
+
+
+void setup () {
+  size(500, 500);         // Tamano de la pantalla:
+  Puerto = new Serial(this, "COM7", 9600); // En el lugar de [0], debe ir el puerto
+  minim=new Minim(this);     
+son1= minim.loadFile ("s1.mp3");
+son2= minim.loadFile ("s2.mp3");
+}
+ 
+void draw () {  
+  if (boton==1)
+  {
+  son1.play();
+  son2.rewind();
+  }
+ else   if (boton==2)
+  {
+  son2.play();
+  son1.rewind();
+  }
+  
+
+  
+
+  println (boton);
+}
+     
+
+ void serialEvent (Serial Puerto) { //evento para la comunicación en recibir datos por el serial
+  String inString = Puerto.readStringUntil('\n'); // Lee la cadena hasta encontrar un enter
+   if (inString != null) {
+    inString = trim(inString); // Se quita los espacios en blanco:
+    boton= float(inString);  // Convierte en flotante el String leido
+ 
+        }
+ }
+ 
+
+
+
+/*
+
+
+
+//Programa del Arduino
+
+
+void setup() {
+Serial.begin (9600);
+}
+
+void loop() {
+if (analogRead(A7)>512)
+{
+ Serial.println("1");
+  }
+  else if (analogRead(A6)>512)
+{
+  Serial.println("2");
+  }
+  else
+  {
+    Serial.println ("0");
+    }
+
+}
+
