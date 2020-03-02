@@ -1,0 +1,93 @@
+import processing.serial.*;
+Serial Puerto;    // El puerto serial
+
+float angle=0;
+float y; 
+float x=0;
+float valor = 0;
+
+void setup()
+{
+size (500,500);
+ Puerto = new Serial(this,"COM3", 9600);
+//textSize(30);
+background(0);
+frameRate(100);
+}
+void draw ()
+{
+    fill(255);
+    y= 250 + (sin(angle)* valor);
+   // text(sin(angle),0,50);
+    rect(x, y, 2, 8);
+    angle += PI/40.0;
+    x+=5;
+if (x>width)
+{
+x=0;
+background(0);
+}
+
+
+}
+
+ void serialEvent (Serial Puerto) { //evento para la comunicación en recibir datos por el serial
+  String inString = Puerto.readStringUntil('\n'); // Lee la cadena hasta encontrar un enter
+   if (inString != null) {
+    inString = trim(inString); // Se quita los espacios en blanco:
+    valor= float(inString);  // Convierte en flotante el String leido
+      if(valor<10)valor=30;
+    else if(valor>60)valor=height/2;
+    else{
+   valor= map(valor,10,60,30,height/2);
+    }
+           }
+}
+/*
+//programa del Arduino
+const int Trigger = A4;   
+const int Echo = A5;  
+  long tiempo; 
+  long distancia;
+  void setup() {
+  Serial.begin(9600);
+  pinMode(Trigger, OUTPUT); 
+  pinMode(Echo, INPUT); 
+  digitalWrite(Trigger, LOW);
+  pinMode (10,OUTPUT);
+  pinMode (11,OUTPUT);
+}
+
+void loop()
+{
+
+  delay (100);
+  digitalWrite(Trigger, HIGH);
+  delayMicroseconds(10);         
+  digitalWrite(Trigger, LOW);
+  
+  tiempo = pulseIn(Echo, HIGH); 
+  distancia = tiempo/59; 
+if (distancia<= 10)
+{
+  digitalWrite (10,HIGH);
+  digitalWrite (11,LOW);
+  }
+ else if (distancia>= 60)
+{
+  digitalWrite (11,HIGH);
+  digitalWrite (10,LOW);
+  }
+  else
+  {
+    digitalWrite (11,LOW);
+  digitalWrite (10,LOW); 
+    }
+  
+    Serial.println(distancia);      
+    delay(100);     
+
+           
+}
+
+*/
