@@ -1,0 +1,204 @@
+import processing.serial.*;
+Serial Puerto;    // El puerto serial
+
+float A;
+float AL;
+float P1;
+float P2;
+float P2A=0,P2B=0,P2C=0;
+
+float s,m,h;
+int s1,m1,h1;
+int s2,m2,h2;
+PFont fuente,fuente2;
+void setup () {
+  size(800, 800);         // Tamano de la pantalla:
+  Puerto = new Serial(this, "COM8", 9600); // En el lugar de [0], debe ir el puerto
+fuente= loadFont("MicrosoftYaHeiUI-Bold-120.vlw");
+fuente2= loadFont("MicrosoftYaHeiUI-Bold-30.vlw");
+
+}
+ 
+void draw () {  
+ background(100);
+s1=second();
+m1= minute();
+h1= hour()%12;  
+if (AL==1 )
+{
+  textFont(fuente2);
+text("Selecciona los minutos: ",50,100);
+text("Selecciona la hora:",50,200);
+if (P1>=0 && P1<=600)
+{
+P2B= map (P2,0,1023,0,60);
+text(int(P2B),600,100);
+}
+
+ if (P1>600)
+{
+P2C= map (P2,0,1023,0,12);
+text(int(P2C),600,200);
+text(int(P2B),600,100);
+}
+
+}
+else if (AL==0)
+{
+if (A==0)
+{
+
+  fill (60);
+ellipse(width/2,height/2,width/1.4,height/1.4);
+
+s= map(second (),0,60,0,TWO_PI)-HALF_PI;
+m= map(minute (),0,60,0,TWO_PI)-HALF_PI;
+h= map(hour()%12,0,12,0,TWO_PI)-HALF_PI;
+
+
+stroke (255);
+//segundos
+strokeWeight(2);
+line (width/2,height/2,width/2+cos(s)*220,height/2+sin(s)*220);
+//minutos
+strokeWeight(8);
+line (width/2,height/2,width/2+cos(m)*200,height/2+sin(m)*200);
+//horas
+strokeWeight(15);
+line (width/2,height/2,width/2+cos(h)*150,height/2+sin(h)*150);
+
+
+noStroke();
+fill(10);
+ellipse(width/2,height/2,10,10);
+  
+ 
+}
+if (A==1)
+{
+   
+ 
+ String t= nf(h1,2) + ":" + nf(m1,2) + ":" + nf(s1,2);
+ textFont(fuente);
+ text(t,125,430);
+   textFont(fuente2);
+   text("ALARMA: ",50,150);
+      text("MINUTOS: ",400,100);
+         text("HORAS: ",400,200);
+text(int(P2B),600,100);
+text(int(P2C),600,200);
+}
+
+if (int(P2C)==h1 && int(P2B)== m1)
+{
+ textFont(fuente2);
+   text("ALARMA SONANDO ",250,750);
+   Puerto.write("A");
+}
+else
+{
+ textFont(fuente2);
+   text("ALARMA DESACTIVADA ",250,750);
+   Puerto.write("B");
+}
+
+
+
+}
+}
+      
+
+void serialEvent(Serial myPort)
+{
+  String datos = myPort.readStringUntil('\n');
+ 
+  if (datos != null) 
+  {
+    datos = trim(datos);
+    float[] valores = float(split(datos, ","));
+     A=valores[0];
+     AL= valores[1];
+     P2= valores[2];
+     P1= valores[3];
+  }
+}
+ /*
+ //Programa del Arduino
+int al;
+int contador=0;
+unsigned long tiempo1=0;
+unsigned long tiempo2=0;
+unsigned long tiempo_segundos;
+int valor;
+  
+void setup() {
+Serial.begin (9600);
+pinMode(9,INPUT);
+pinMode (10,OUTPUT);
+pinMode (11,OUTPUT);
+}
+
+void loop() {
+  tiempo1=millis();
+ valor=digitalRead(9);
+  
+while(valor==1)
+{
+  tiempo2=millis();
+  tiempo_segundos= (tiempo2-tiempo1)/1000;
+valor=digitalRead(9);
+if (digitalRead(9))
+{
+  if (contador==0)
+      {
+        contador=1;
+        }
+        else
+        {
+          contador=0;
+          }
+  }
+          if(tiempo_segundos>= 3)
+          {
+            al=1;
+            }
+            else
+            {
+              al=0;
+              }   
+  }
+   
+
+ Serial.print(contador);
+Serial.print(",");
+Serial.print(al);
+Serial.print(",");
+Serial.print(analogRead(A7));
+Serial.print(",");
+Serial.print (analogRead(A6));
+Serial.println();
+digitalWrite (10,LOW);
+    digitalWrite (11,LOW);
+delay(100);
+
+ if (Serial.available())
+{
+  char valor= Serial.read();
+
+  if (valor=='A')
+  {
+   
+    digitalWrite (10,HIGH);
+    digitalWrite (11,HIGH);
+    delay(500);
+     digitalWrite (10,LOW);
+    digitalWrite (11,LOW);
+    delay(500);
+    }
+   
+    }
+  }
+  
+ 
+ 
+ */
